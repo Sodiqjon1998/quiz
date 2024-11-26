@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Exam;
 use App\Models\ExamAnswer;
 use App\Models\Question;
+use App\Models\QuizTime;
 use App\Models\Student\Quiz;
 use App\Models\Subjects;
 use Illuminate\Http\Request;
@@ -115,41 +116,51 @@ class QuizController extends Controller
     }
 
 
-
     public function saveTime(Request $request)
     {
-        session([
-            'quiz_time' => [
-                'hours' => $request->hours,
-                'minutes' => $request->minutes,
-                'seconds' => $request->seconds,
-                'quizId' => $request->quizId,
-                'subjectId' => $request->subjectId,
-                'userId' => $request->userId
-            ]
-        ]);
+        $quizId = $request->input('quizId');
+        $userId = $request->input('userId');
+        $subjectId = $request->input('subjectId');
+        $hours = (int)$request->input('hours');
+        $minutes = (int)$request->input('minutes');
+        $seconds = (int)$request->input('seconds');
 
-        return response()->json(['status' => 'success']);
+        if ($hours < 0 || $minutes < 0 || $seconds < 0) {
+            return response()->json(['error' => 'Vaqt noto\'g\'ri!']);
+        }
+
+        DB::table('quiz_time')
+            ->updateOrInsert(
+                ['quiz_id' => $quizId, 'user_id' => $userId, 'subject_id' => $subjectId],
+                ['hours' => $hours, 'minutes' => $minutes, 'seconds' => $seconds]
+            );
+
+        return response()->json(['message' => 'Vaqt muvaffaqiyatli saqlandi']);
     }
 
-    // Vaqt va boshqa ma'lumotlarni sessiyadan olish
-    public function loadTime(Request $request)
-    {
-        $sessionKey = $request->session_key; // Sessiya kaliti so‘rovdan olish
-        $time = session('quiz_time');
 
-        if ($time && $time['session_key'] == $sessionKey) {
-            return response()->json($time);
-        } else {
+    public function getTime(Request $request)
+    {
+        $request->validate([
+            'quizId' => 'required|integer',
+            'userId' => 'required|integer',
+        ]);
+
+        // Fetch the saved time for the quiz and user
+        $quizTime = QuizTime::where('quiz_id', $request->quizId)
+            ->where('user_id', $request->userId)
+            ->first();
+
+        // Check if the time data exists and return it
+        if ($quizTime) {
             return response()->json([
-                'hours' => 0,
-                'minutes' => 0,
-                'seconds' => 0,
-                'quizId' => null,
-                'subjectId' => null,
-                'userId' => null
+                'hours' => $quizTime->hours,
+                'minutes' => $quizTime->minutes,
+                'seconds' => $quizTime->seconds,
             ]);
         }
+
+        return response()->json(['message' => 'Quiz topilmadi'], 404);
     }
 
     // Sessiyani tozalash

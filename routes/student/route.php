@@ -21,7 +21,7 @@ Route::middleware(['auth.student','student'])->group(function () {
         Route::delete('/quiz/{id}', 'destroy')->name('student.quiz.destroy');
 
         Route::post('/student/quiz/saveTime', [QuizController::class, 'saveTime'])->name('student.quiz.saveTime');
-        Route::get('/student/quiz/loadTime', [QuizController::class, 'loadTime'])->name('student.quiz.loadTime');
+        Route::get('/student/quiz/get-time', [QuizController::class, 'getTime'])->name('student.quiz.getTime');
         Route::post('/student/quiz/clearSession', [QuizController::class, 'clearSession'])->name('student.quiz.clearSession');
     });
 
