@@ -35,7 +35,7 @@ use App\Models\User;
                             </div>
                             <div class="col-md-6 mb-6">
                                 <div class="form-floating form-floating-outline mb-6">
-                                    <input type="datetime" name="date" class="form-control" id="basic-default-fullname"
+                                    <input type="date" name="date" class="form-control" id="basic-default-fullname"
                                            placeholder="Quiz uchun urinishlar vaqti" required>
                                     <label for="basic-default-fullname">Quiz uchun vaqt</label>
                                 </div>
