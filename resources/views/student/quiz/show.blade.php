@@ -11,7 +11,7 @@
 
     @endphp
     <div class="card">
-        <h6  class="text-md-end p-3">
+        <h6 class="text-md-end p-3">
             <i class="ri-time-fill"></i> <span id="timer">{{$dateTimeFormat}}</span>
         </h6>
         <form action="{{route('student.quiz.store')}}" id="quizForm" method="post">
@@ -33,7 +33,8 @@
                     @foreach($options as $k => $option)
                         <div class="card-body">
                             <li>
-                                &nbsp;<input type="radio" class="selectOption" id="" name="options{{$key}}" value="{{$option->id}}"
+                                &nbsp;<input type="radio" class="selectOption" id="" name="options{{$key}}"
+                                             value="{{$option->id}}"
                                              data-id="{{$key}}">
                                 <label for="ans_{{$key}}">{{$option->name}}</label>
                             </li>
@@ -43,7 +44,8 @@
                 <hr>
                 @php ++$qCount @endphp
             @endforeach
-            <button id="submitBtn" class="badge bg-label-hover-success text-md-end" type="submit">Testni yakunlash</button>
+            <button id="submitBtn" class="badge bg-label-hover-success text-md-end" type="submit">Testni yakunlash
+            </button>
         </form>
     </div>
 
@@ -73,7 +75,7 @@
 
                     if (hours === 0 && minutes === 0 && seconds === 0) {
                         clearInterval(timer);
-                        alert("Vaqt tugadi!");
+                        clearTimeInDatabase()
                         $('#quizForm').submit(); // Testni yakunlash
                     }
 
@@ -150,22 +152,61 @@
                         }
                     },
                     error: function (xhr) {
+                        let timeParts = @json(explode(":", $dateTimeFormat));
+                        hours = timeParts[0] ? parseInt(timeParts[0]) : 0; // Agar bo'sh bo'lsa, 0 qiymat berilsin
+                        minutes = timeParts[1] ? parseInt(timeParts[1]) : 0;
+                        seconds = timeParts[2] ? parseInt(timeParts[2]) : 0;
+                        startTimer();
                         console.error("Vaqtni yuklashda xatolik yuz berdi:", xhr.responseText);
                     }
                 });
             }
 
 
-
             loadTimeFromDatabase(); // Sahifa yuklanganda vaqtni tiklash
 
 
-            // Testni yakunlash tugmasiga confirm dialogini qo'shish
-            $('#submitBtn').click(function() {
-                if (confirm("Rostdan ham testni yakunlamoqchimisiz?")) {
-                    $('#quizForm').submit();
+            $('#submitBtn').click(async function () {
+                let confirms = confirm("Rostdan ham testni yakunlamoqchimisiz?");
+                if (confirms) {
+                    try {
+                        const result = await clearTimeInDatabase();
+                        if (result) {
+                            $('#quizForm').submit(); // Testni yakunlash
+                        } else {
+                            alert('Bazani tozalashda xatolik');
+                            startTimer(); // Vaqtni davom ettirish
+                        }
+                    } catch (error) {
+                        alert('Bazani tozalashda xatolik');
+                        startTimer();
+                    }
+                } else {
+                    startTimer(); // Vaqtni davom ettirish
                 }
             });
+
+// AJAX funksiyasi Promise bilan
+            function clearTimeInDatabase() {
+                return new Promise((resolve, reject) => {
+                    $.ajax({
+                        url: "{{ route('student.quiz.clearTime') }}",
+                        method: "POST",
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            quizId: quizId,
+                            userId: userId
+                        },
+                        success: function (response) {
+                            resolve(response.status === 'success'); // Muvaffaqiyatli bo'lsa true qaytariladi
+                        },
+                        error: function () {
+                            reject(false); // Xatolik bo'lsa false qaytariladi
+                        }
+                    });
+                });
+            }
+
         });
     </script>
 @endsection

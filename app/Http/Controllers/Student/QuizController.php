@@ -164,9 +164,21 @@ class QuizController extends Controller
     }
 
     // Sessiyani tozalash
-    public function clearSession(Request $request)
+    public function clearTime(Request $request)
     {
-        session()->forget('quiz_time');
-        return response()->json(['status' => 'success']);
+        $quizId = $request->quizId;
+        $userId = $request->userId;
+
+        // Vaqtni o'chirish
+        $deleted = DB::table('quiz_time')
+            ->where('quiz_id', $quizId)
+            ->where('user_id', $userId)
+            ->delete();
+
+        if ($deleted) {
+            return response()->json(['status' => 'success', 'message' => 'Vaqt tozalandi.']);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'Vaqtni tozalashda xatolik yuz berdi.']);
+        }
     }
 }
