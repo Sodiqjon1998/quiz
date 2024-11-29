@@ -168,61 +168,68 @@
             loadTimeFromDatabase(); // Sahifa yuklanganda vaqtni tiklash
 
 
-            // Timerni o'chirish
             function clearTimeInDatabase() {
-                return new Promise((resolve, reject) => {
-                    $.ajax({
-                        url: "{{ route('student.quiz.clearTime') }}",
-                        method: "POST",
-                        data: {
-                            _token: "{{ csrf_token() }}",
-                            quizId: quizId,
-                            userId: userId
-                        },
-                        success: function (response) {
-                            resolve(true);
-                        },
-                        error: function (xhr) {
-                            console.error("Vaqtni tozalashda xatolik:", xhr.responseText);
-                            reject(false);
+                $.ajax({
+                    url: "{{ route('student.quiz.clearTime') }}",
+                    method: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        quizId: quizId,
+                        userId: userId
+                    },
+                    success: function (response) {
+                        if (response.status === "success") {
+                            console.log(response.message);
+                        } else {
+                            console.error(response.message);
                         }
-                    });
+                    },
+                    error: function (xhr) {
+                        console.error("Xatolik yuz berdi:", xhr.responseText);
+                    }
                 });
             }
 
-            // Sahifa yuklanganda vaqtni yuklash
-            loadTimeFromDatabase();
-
-            // Testni yakunlash
-            $('#submitBtn').click(async function () {
+            // Testni yakunlash tugmachasi
+            $('#submitBtn').click(function (event) {
+                event.preventDefault();
                 let confirms = confirm("Rostdan ham testni yakunlamoqchimisiz?");
                 if (confirms) {
-                    $.ajax({
-                        url: "{{ route('student.quiz.clearTime') }}",
-                        method: "POST",
-                        data: {
-                            _token: "{{ csrf_token() }}",
-                            quizId: quizId,
-                            userId: userId
-                        },
-                        success: function (response) {
-                            // clearInterval(timer);
-                            console.log(response)
-                            $('#quizForm').submit();
-                            resolve(true);
-                        },
-                        error: function (xhr) {
-                            alert("Xatolik yuz berdi.");
-                            startTimer();
-                            console.error("Vaqtni tozalashda xatolik:", xhr.responseText);
-                            reject(false);
-                        }
-                    });
-                }else {
-                    alert("Xatolik yuz berdi.");
-                    startTimer();
+                    clearTimeInDatabase(); // Vaqtni tozalash
+                    $('#quizForm').submit(); // Formani yuborish
                 }
             });
+
+            {{--// Testni yakunlash--}}
+            {{--$('#submitBtn').click(async function () {--}}
+            {{--    let confirms = confirm("Rostdan ham testni yakunlamoqchimisiz?");--}}
+            {{--    if (confirms) {--}}
+            {{--        $.ajax({--}}
+            {{--            url: "{{ route('student.quiz.clearTime') }}",--}}
+            {{--            method: "POST",--}}
+            {{--            data: {--}}
+            {{--                _token: "{{ csrf_token() }}",--}}
+            {{--                quizId: quizId,--}}
+            {{--                userId: userId--}}
+            {{--            },--}}
+            {{--            success: function (response) {--}}
+            {{--                // clearInterval(timer);--}}
+            {{--                console.log(response)--}}
+            {{--                $('#quizForm').submit();--}}
+            {{--                resolve(true);--}}
+            {{--            },--}}
+            {{--            error: function (xhr) {--}}
+            {{--                alert("Xatolik yuz berdi.");--}}
+            {{--                startTimer();--}}
+            {{--                console.error("Vaqtni tozalashda xatolik:", xhr.responseText);--}}
+            {{--                reject(false);--}}
+            {{--            }--}}
+            {{--        });--}}
+            {{--    }else {--}}
+            {{--        alert("Xatolik yuz berdi.");--}}
+            {{--        startTimer();--}}
+            {{--    }--}}
+            {{--});--}}
 
 
         });
