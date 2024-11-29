@@ -166,6 +166,7 @@ class QuizController extends Controller
     // Sessiyani tozalash
     public function clearTime(Request $request)
     {
+
         $quizId = $request->quizId;
         $userId = $request->userId;
 
@@ -175,7 +176,7 @@ class QuizController extends Controller
             ->where('user_id', $userId)
             ->delete();
 
-        if ($deleted) {
+        if ($deleted > 0) {
             return response()->json(['status' => 'success', 'message' => 'Vaqt tozalandi.']);
         } else {
             return response()->json(['status' => 'error', 'message' => 'Vaqtni tozalashda xatolik yuz berdi.']);

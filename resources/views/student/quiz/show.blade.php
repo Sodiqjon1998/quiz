@@ -64,9 +64,11 @@
             let subjectId = "{{$subject->id}}"
             let userId = @json(Auth::user()->id);
 
+            let timer;
+
             // Timer funksiyasi
             function startTimer() {
-                let timer = setInterval(() => {
+                timer = setInterval(() => {
                     $("#timer").text(
                         hours.toString().padStart(2, "0") + ":" +
                         minutes.toString().padStart(2, "0") + ":" +
@@ -166,27 +168,7 @@
             loadTimeFromDatabase(); // Sahifa yuklanganda vaqtni tiklash
 
 
-            $('#submitBtn').click(async function () {
-                let confirms = confirm("Rostdan ham testni yakunlamoqchimisiz?");
-                if (confirms) {
-                    try {
-                        const result = await clearTimeInDatabase();
-                        if (result) {
-                            $('#quizForm').submit(); // Testni yakunlash
-                        } else {
-                            alert('Bazani tozalashda xatolik');
-                            startTimer(); // Vaqtni davom ettirish
-                        }
-                    } catch (error) {
-                        alert('Bazani tozalashda xatolik');
-                        startTimer();
-                    }
-                } else {
-                    startTimer(); // Vaqtni davom ettirish
-                }
-            });
-
-// AJAX funksiyasi Promise bilan
+            // Timerni o'chirish
             function clearTimeInDatabase() {
                 return new Promise((resolve, reject) => {
                     $.ajax({
@@ -198,14 +180,50 @@
                             userId: userId
                         },
                         success: function (response) {
-                            resolve(response.status === 'success'); // Muvaffaqiyatli bo'lsa true qaytariladi
+                            resolve(true);
                         },
-                        error: function () {
-                            reject(false); // Xatolik bo'lsa false qaytariladi
+                        error: function (xhr) {
+                            console.error("Vaqtni tozalashda xatolik:", xhr.responseText);
+                            reject(false);
                         }
                     });
                 });
             }
+
+            // Sahifa yuklanganda vaqtni yuklash
+            loadTimeFromDatabase();
+
+            // Testni yakunlash
+            $('#submitBtn').click(async function () {
+                let confirms = confirm("Rostdan ham testni yakunlamoqchimisiz?");
+                if (confirms) {
+                    $.ajax({
+                        url: "{{ route('student.quiz.clearTime') }}",
+                        method: "POST",
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            quizId: quizId,
+                            userId: userId
+                        },
+                        success: function (response) {
+                            // clearInterval(timer);
+                            console.log(response)
+                            $('#quizForm').submit();
+                            resolve(true);
+                        },
+                        error: function (xhr) {
+                            alert("Xatolik yuz berdi.");
+                            startTimer();
+                            console.error("Vaqtni tozalashda xatolik:", xhr.responseText);
+                            reject(false);
+                        }
+                    });
+                }else {
+                    alert("Xatolik yuz berdi.");
+                    startTimer();
+                }
+            });
+
 
         });
     </script>
