@@ -22,7 +22,7 @@ Route::middleware(['auth.student','student'])->group(function () {
 
         Route::post('/student/quiz/saveTime', [QuizController::class, 'saveTime'])->name('student.quiz.saveTime');
         Route::get('/student/quiz/get-time', [QuizController::class, 'getTime'])->name('student.quiz.getTime');
-        Route::post('/student/quiz/clearTime', [QuizController::class, 'clearTime'])->name('student.quiz.clearTime');
+        Route::post('/student/quiz/clear-time', [QuizController::class, 'clearTime'])->name('student.quiz.clearTime');
     });
 
 });

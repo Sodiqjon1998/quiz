@@ -167,7 +167,7 @@ class QuizController extends Controller
     {
         // Kiritilgan maʼlumotlarni tekshirish
         $quizId = $request->input('quizId');
-        $userId = $request->input('userId');
+        $userId = \Auth::user()->id;
 
         if (!$quizId || !$userId) {
             return response()->json(['status' => 'error', 'message' => 'Kerakli maʼlumotlar yetarli emas.']);
@@ -177,7 +177,7 @@ class QuizController extends Controller
             // Vaqtni o'chirish
             $deleted = DB::table('quiz_time')
                 ->where('quiz_id', $quizId)
-                ->where('user_id', \Auth::user()->id)
+                ->where('user_id', $userId)
                 ->delete();
 
             if ($deleted) {
