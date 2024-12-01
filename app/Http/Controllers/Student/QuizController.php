@@ -177,10 +177,10 @@ class QuizController extends Controller
             // Vaqtni o'chirish
             $deleted = DB::table('quiz_time')
                 ->where('quiz_id', $quizId)
-                ->where('user_id', $userId)
+                ->where('user_id', \Auth::user()->id)
                 ->delete();
 
-            if ($deleted > 0) {
+            if ($deleted) {
                 return response()->json(['status' => 'success', 'message' => 'Vaqt muvaffaqiyatli tozalandi.']);
             } else {
                 return response()->json(['status' => 'error', 'message' => 'Vaqt topilmadi yoki tozalashda xatolik yuz berdi.']);
