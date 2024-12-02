@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
+use App\Models\Attachment;
 use App\Models\Exam;
 use App\Models\ExamAnswer;
 use App\Models\Question;
 use App\Models\QuizTime;
 use App\Models\Student\Quiz;
 use App\Models\Subjects;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -72,31 +74,78 @@ class QuizController extends Controller
                 ]);
             }
         }
-        return redirect()->route('student');
+        return redirect()->route('student.quiz.result', $examId);
 
     }
 
     /**
      * Display the specified resource.
      */
+
     public function show(string $id, string $subjectId)
     {
         $subject = Subjects::findOrFail($subjectId);
         $quiz = Quiz::findOrFail($id);
-        $questions = Question::where('quiz_id', '=', $id)->where('status', '=', Question::STATUS_ACTIVE)->get();
-        return view('student.quiz.show', [
-            'questions' => $questions,
-            'quiz' => $quiz,
-            'subject' => $subject
-        ]);
+//        $examAttachmentCount = Exam::where('quiz_id', $id)
+//            ->where('user_id', \Auth::user()->id)
+//            ->where('subject_id', $subjectId)
+//            ->count();
+//
+//        $attachment = Attachment::getAttamptById($id);
+//
+//        if (!$attachment) {
+//            return view('student.quiz.error', [
+//                'message' => "Imtihon ma'lumoti topilmadi.",
+//            ]);
+//        }
+//
+//        if ($attachment->number <= $examAttachmentCount) {
+//            return view('student.quiz.error', [
+//                'message' => "Urunishlar qolmadi",
+//                'date' => $attachment->date
+//            ]);
+//        }
+//
+//        $examDate = Carbon::parse($attachment->date);
+//        $today = Carbon::today();
+//
+//        if ($examDate->isToday()) {
+            $questions = Question::where('quiz_id', '=', $id)
+                ->where('status', '=', Question::STATUS_ACTIVE)
+                ->get();
+
+            return view('student.quiz.show', [
+                'questions' => $questions,
+                'quiz' => $quiz,
+                'subject' => $subject
+            ]);
+//        } else if ($examDate->isFuture()) {
+//            return view('student.quiz.error', [
+//                'message' => "Qo'yilgan imtihon vaqti kelmadi",
+//                'date' => $attachment->date
+//            ]);
+//        } else {
+//            return view('student.quiz.error', [
+//                'message' => "Qo'yilgan imtihon vaqti tugadi!",
+//                'date' => $attachment->date
+//            ]);
+//        }
     }
+
+
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function result(string $id)
     {
+        $exam = Exam::findOrFail($id);
+        $examAnswers = ExamAnswer::where('exam_id', '=', $id)->get();
 
+        return view('student.quiz.result', [
+            'exam' => $exam,
+            'examAnswers' => $examAnswers,
+        ]);
     }
 
     /**

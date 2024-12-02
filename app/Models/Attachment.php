@@ -34,4 +34,9 @@ class Attachment extends Model
 
         return !is_null($id) ? $status[$id] : $status;
     }
+
+    public static function getAttamptById($id = null){
+        $model = self::where('quiz_id', $id)->first();
+        return $model;
+    }
 }

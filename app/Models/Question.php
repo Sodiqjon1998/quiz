@@ -27,4 +27,9 @@ class Question extends Model
 
         return !is_null($id) ? $status[$id] : $status;
     }
+
+    public static function getQuestionById($id){
+        $model = Question::where('id', $id)->first();
+        return $model;
+    }
 }

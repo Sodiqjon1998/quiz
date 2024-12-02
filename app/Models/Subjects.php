@@ -31,4 +31,9 @@ class Subjects extends Model
         $teacher = User::where('subject_id', '=', $id)->get();
         return $teacher;
     }
+
+    public static function getSubjectById($id){
+        $model = Subjects::where('id', '=', $id)->first();
+        return $model;
+    }
 }

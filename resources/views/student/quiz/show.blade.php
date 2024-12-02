@@ -77,7 +77,24 @@
 
                     if (hours === 0 && minutes === 0 && seconds === 0) {
                         clearInterval(timer);
-                        clearTimeInDatabase()
+                        $.ajax({
+                            url: "{{ route('student.quiz.clearTime') }}",
+                            method: "POST",
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                quizId: quizId
+                            },
+                            success: function (response) {
+                                alert(response.status)
+
+                                $('#quizForm').submit();
+                            },
+                            error: function (xhr) {
+                                alert("Xatolik yuz berdi.");
+                                startTimer();
+                                console.error("Vaqtni tozalashda xatolik:", xhr.responseText);
+                            }
+                        });
                         $('#quizForm').submit(); // Testni yakunlash
                     }
 
@@ -167,28 +184,6 @@
 
             loadTimeFromDatabase(); // Sahifa yuklanganda vaqtni tiklash
 
-
-            function clearTimeInDatabase() {
-                $.ajax({
-                    url: "{{ route('student.quiz.clearTime') }}",
-                    method: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        quizId: quizId,
-                        userId: userId
-                    },
-                    success: function (response) {
-                        if (response.status === "success") {
-                            console.log(response.message);
-                        } else {
-                            console.error(response.message);
-                        }
-                    },
-                    error: function (xhr) {
-                        console.error("Xatolik yuz berdi:", xhr.responseText);
-                    }
-                });
-            }
 
             // Testni yakunlash
             $('#submitBtn').click(async function (e) {

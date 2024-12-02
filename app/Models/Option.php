@@ -9,4 +9,10 @@ class Option extends Model
 {
     use HasFactory;
     protected $table = 'option';
+
+    public static function getOptionById($id)
+    {
+        $model = self::where('id', $id)->first();
+        return $model;
+    }
 }
