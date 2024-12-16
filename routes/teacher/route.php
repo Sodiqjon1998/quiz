@@ -3,6 +3,7 @@
 use App\Http\Controllers\Teacher\AttachmentController;
 use App\Http\Controllers\Teacher\QuestionController;
 use App\Http\Controllers\Teacher\QuizController;
+use App\Http\Controllers\Teacher\ExamController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Teacher\SiteController;
 
@@ -46,6 +47,19 @@ Route::middleware(['auth.teacher','teacher'])->group(function () {
         Route::get('/teacher/question/{id}/edit', 'edit')->name('teacher.question.edit');
         Route::post('/teacher/question/{id}/update', 'update')->name('teacher.question.update');
         Route::delete('/teacher/question/{id}', 'destroy')->name('teacher.question.destroy');
+
+    });
+
+    Route::prefix('/teacher')->controller(ExamController::class)->group(function () {
+
+        //ATTACHMENT ROUTE
+        Route::get('/teacher/exam/index', 'index')->name('teacher.exam.index');
+        Route::get('/teacher/exam/create', 'create')->name('teacher.exam.create');
+        Route::get('/teacher/exam/{quiz_id}/{subject_id}', 'show')->name('teacher.exam.show');
+        Route::post('/teacher/exam/store', 'store')->name('teacher.exam.store');
+        Route::get('/teacher/exam/{id}/edit', 'edit')->name('teacher.exam.edit');
+        Route::post('/teacher/exam/{id}/update', 'update')->name('teacher.exam.update');
+        Route::delete('/teacher/exam/{id}', 'destroy')->name('teacher.exam.destroy');
 
     });
 });
