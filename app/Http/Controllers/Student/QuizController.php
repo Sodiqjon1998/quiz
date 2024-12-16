@@ -86,30 +86,30 @@ class QuizController extends Controller
     {
         $subject = Subjects::findOrFail($subjectId);
         $quiz = Quiz::findOrFail($id);
-//        $examAttachmentCount = Exam::where('quiz_id', $id)
-//            ->where('user_id', \Auth::user()->id)
-//            ->where('subject_id', $subjectId)
-//            ->count();
+       $examAttachmentCount = Exam::where('quiz_id', $id)
+           ->where('user_id', \Auth::user()->id)
+           ->where('subject_id', $subjectId)
+           ->count();
+
+       $attachment = Attachment::getAttamptById($id);
+
+       if (!$attachment) {
+           return view('student.quiz.error', [
+               'message' => "Imtihon ma'lumoti topilmadi.",
+           ]);
+       }
 //
-//        $attachment = Attachment::getAttamptById($id);
+       if ($attachment->number <= $examAttachmentCount) {
+           return view('student.quiz.error', [
+               'message' => "Urunishlar qolmadi",
+               'date' => $attachment->date
+           ]);
+       }
+
+       $examDate = Carbon::parse($attachment->date);
+       $today = Carbon::today();
 //
-//        if (!$attachment) {
-//            return view('student.quiz.error', [
-//                'message' => "Imtihon ma'lumoti topilmadi.",
-//            ]);
-//        }
-//
-//        if ($attachment->number <= $examAttachmentCount) {
-//            return view('student.quiz.error', [
-//                'message' => "Urunishlar qolmadi",
-//                'date' => $attachment->date
-//            ]);
-//        }
-//
-//        $examDate = Carbon::parse($attachment->date);
-//        $today = Carbon::today();
-//
-//        if ($examDate->isToday()) {
+       if ($examDate->isToday()) {
             $questions = Question::where('quiz_id', '=', $id)
                 ->where('status', '=', Question::STATUS_ACTIVE)
                 ->get();
@@ -119,17 +119,17 @@ class QuizController extends Controller
                 'quiz' => $quiz,
                 'subject' => $subject
             ]);
-//        } else if ($examDate->isFuture()) {
-//            return view('student.quiz.error', [
-//                'message' => "Qo'yilgan imtihon vaqti kelmadi",
-//                'date' => $attachment->date
-//            ]);
-//        } else {
-//            return view('student.quiz.error', [
-//                'message' => "Qo'yilgan imtihon vaqti tugadi!",
-//                'date' => $attachment->date
-//            ]);
-//        }
+       } else if ($examDate->isFuture()) {
+           return view('student.quiz.error', [
+               'message' => "Qo'yilgan imtihon vaqti kelmadi",
+               'date' => $attachment->date
+           ]);
+       } else {
+           return view('student.quiz.error', [
+               'message' => "Qo'yilgan imtihon vaqti tugadi!",
+               'date' => $attachment->date
+           ]);
+       }
     }
 
 
