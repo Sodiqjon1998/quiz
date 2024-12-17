@@ -123,7 +123,7 @@
 
         <li class="menu-item {{ Route::is('teacher.exam.index') ? 'active' : '' }}">
             <a href="{{route('teacher.exam.index')}}" class="menu-link">
-                <i class="ri-student"></i> &nbsp;
+                <i class="ri-a-b"></i> &nbsp;
                 <div data-i18n="Imtixonlar">Imtixonlar</div>
             </a>
         </li>

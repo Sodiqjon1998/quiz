@@ -137,4 +137,17 @@ class User extends Authenticatable
         $model = Subjects::where('id', $id)->first();
         return $model;
     }
+
+    public static function getStudentFullNameById($id){
+        $model = self::where('id', $id)->first();
+        return $model->first_name. ' '. $model->last_name;
+    }
+
+
+    public static function getByUserClassId($user_id){
+        $user = self::findOrFail($user_id);
+        $class = Classes::findOrFail($user->classes_id);
+
+        return $class;
+    }
 }

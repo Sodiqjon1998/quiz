@@ -52,10 +52,11 @@ Route::middleware(['auth.teacher','teacher'])->group(function () {
 
     Route::prefix('/teacher')->controller(ExamController::class)->group(function () {
 
-        //ATTACHMENT ROUTE
+        //EXAM ROUTE
         Route::get('/teacher/exam/index', 'index')->name('teacher.exam.index');
         Route::get('/teacher/exam/create', 'create')->name('teacher.exam.create');
         Route::get('/teacher/exam/{quiz_id}/{subject_id}', 'show')->name('teacher.exam.show');
+        Route::get('/teacher/exam/{id}', 'showTest')->name('teacher.exam.showTest');
         Route::post('/teacher/exam/store', 'store')->name('teacher.exam.store');
         Route::get('/teacher/exam/{id}/edit', 'edit')->name('teacher.exam.edit');
         Route::post('/teacher/exam/{id}/update', 'update')->name('teacher.exam.update');

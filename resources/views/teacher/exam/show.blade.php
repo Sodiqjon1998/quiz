@@ -1,4 +1,5 @@
 @php use App\Models\Teacher\Quiz; @endphp
+@php use App\Models\User; @endphp
 @extends('teacher.layouts.main')
 
 @section('content')
@@ -30,11 +31,9 @@
                 <thead>
                 <tr>
                     <th style="width: 30px">T/R</th>
-                    <th>Imtihon</th>
+                    <th>O'quvchi ismi</th>
                     <th>Sinf nomi</th>
-                    <th>Imtixon vaqti</th>
                     <th>Kiritilgan vaqti</th>
-                    <th>Status</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -44,41 +43,25 @@
                         <tr>
                             <td>{{ ++$key }}</td>
                             <td>
-                                {{  }}
+                                {{ User::getStudentFullNameById($item->user_id) }}
                             </td>
                             <td>
-                                {{Quiz::getAttachmentById($item->id)->number ?? "-----"}}
-                            </td>
-                            <td>
-                                {{Quiz::getAttachmentById($item->id)->date ?? "-----"}}
-                            </td>
-                            <td>
-                                {{ Quiz::getClass($item->classes_id)->name ?? '-----' }}
+                                {{User::getByUserClassId($item->user_id)->name}}
                             </td>
                             <td>
                                 {{$item->created_at}}
                             </td>
+                            
                             <td>
-                                @if ($item->status == Quiz::STATUS_ACTIVE)
-                                    <small class="badge bg-label-success badge-sm rounded-pill">
-                                        {{ Quiz::getStatus($item->status) }}
-                                    </small>
-                                @else
-                                    <small class="badge bg-label-danger badge-sm rounded-pill">
-                                        {{ Quiz::getStatus($item->status) }}
-                                    </small>
-                                @endif
-                            </td>
-                            <td>
-                                <a href="{{route('teacher.quiz.edit', $item->id)}}"
+                                <a href="{{route('teacher.exam.edit', $item->id)}}"
                                    class="badge bg-label-info badge-lg rounded-pill">
                                     <i style="font-size: 16px" class="ri-pencil-line"></i>
                                 </a>
-                                <a href="{{ route('teacher.quiz.show', $item->id) }}"
+                                <a href="{{ route('teacher.exam.showTest', $item->id) }}"
                                    class="badge bg-label-primary badge-lg rounded-pill">
                                     <i style="font-size: 16px" class="ri-eye-2-line"></i>
                                 </a>
-                                <form id="deleteForm" action="{{ route('teacher.quiz.destroy', $item->id) }}"
+                                <form id="deleteForm" action="{{ route('teacher.exam.destroy', $item->id) }}"
                                       method="POST" style="display: inline">
                                     @csrf
                                     @method('DELETE')

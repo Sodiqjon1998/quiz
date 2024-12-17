@@ -48,6 +48,10 @@ class ExamController extends Controller
         ]);
     }
 
+    public function showTest(string $id){
+
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
