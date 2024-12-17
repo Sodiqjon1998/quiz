@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Teacher;
 use Illuminate\Http\Request;
 use App\Models\Teacher\Quiz;
 use App\Models\Exam;
+use App\Models\ExamAnswer;
 use App\Http\Controllers\Controller;
 
 class ExamController extends Controller
@@ -49,7 +50,13 @@ class ExamController extends Controller
     }
 
     public function showTest(string $id){
+        $exam = Exam::findOrFail($id);
+        $examAnswers = ExamAnswer::where('exam_id', '=', $id)->get();
 
+        return view('teacher.exam.showTest', [
+            'exam' => $exam,
+            'examAnswers' => $examAnswers
+        ]);
     }
 
     /**
