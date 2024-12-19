@@ -1,4 +1,5 @@
 @php use App\Models\Teacher\Teacher; @endphp
+@php use App\Models\User; @endphp
 <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
      id="layout-navbar" style="border-bottom: 1px solid #d3cece">
 
@@ -14,12 +15,7 @@
 
         <!-- Search -->
         <div class="navbar-nav align-items-center">
-            <div class="nav-item navbar-search-wrapper mb-0">
-                <a class="nav-item nav-link search-toggler fw-normal px-0" href="javascript:void(0);">
-                    <i class="ri-search-line ri-22px scaleX-n1-rtl me-3"></i>
-                    <span class="d-none d-md-inline-block text-muted">Search (Ctrl+/)</span>
-                </a>
-            </div>
+            <strong>O'qituvchi: </strong> &nbsp; {{User::getStudentFullNameById(Auth::user()->id)}}
         </div>
         <!-- /Search -->
 
@@ -27,7 +23,7 @@
         <ul class="navbar-nav flex-row align-items-center ms-auto">
 
             <li class="nav-item">
-                {{Teacher::subject(Auth::user()->subject_id)->name ?? "-----"}}
+                <strong>Fan nomi:</strong> {{Teacher::subject(Auth::user()->subject_id)->name ?? "-----"}}
             </li>
             <!-- Language -->
             <li class="nav-item dropdown-language dropdown">

@@ -40,7 +40,7 @@
                     </svg>
                 </span>
             </span>
-            <span class="app-brand-text demo menu-text fw-semibold ms-2">Teacher</span>
+            <span class="app-brand-text demo menu-text fw-semibold ms-2">O'qituvchi</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">

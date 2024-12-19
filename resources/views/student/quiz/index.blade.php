@@ -12,7 +12,6 @@
             @php
                 $currentDate = Carbon::now()->format('Y-m-d');
                 $dateToCompare = Carbon::parse(Quiz::getAttachmentById($item->quizId)->date)->format('Y-m-d');
-                //                            dd($currentDate . " == " . $dateToCompare)
             @endphp
 
 
