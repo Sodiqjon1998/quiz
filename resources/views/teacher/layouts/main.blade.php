@@ -22,7 +22,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
-    <title>Dashboard - Analytics | Materialize - Material Design HTML Admin Template</title>
+    <title>Andijon Yuksalish Maktabi -- O'qituvchi</title>
 
 
     <meta name="description"
@@ -35,7 +35,7 @@
 
     <!-- ? PROD Only: Google Tag Manager (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
     <script>
-        (function (w, d, s, l, i) {
+        (function(w, d, s, l, i) {
             w[l] = w[l] || [];
             w[l].push({
                 'gtm.start': new Date().getTime(),
@@ -53,7 +53,7 @@
     <!-- End Google Tag Manager -->
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/staticImages/logo.png') }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -83,13 +83,13 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/%40form-validation/form-validation.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/flatpickr/flatpickr.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-maxlength/bootstrap-maxlength.css') }}">
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css') }}">
     {{--    Picker  --}}
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css') }}">
     <link rel="stylesheet"
-          href="{{asset('assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/jquery-timepicker/jquery-timepicker.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/pickr/pickr-themes.css')}}">
+          href="{{ asset('assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/jquery-timepicker/jquery-timepicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/pickr/pickr-themes.css') }}">
 
 
     <!-- Page CSS -->
@@ -173,9 +173,6 @@
 <!-- / Layout wrapper -->
 
 
-<div class="buy-now">
-    <a href="https://1.envato.market/materialize_admin" target="_blank" class="btn btn-danger btn-buy-now">Buy Now</a>
-</div>
 
 
 <!-- Core JS -->
@@ -204,15 +201,15 @@
 <script src="{{ asset('assets/vendor/libs/%40form-validation/bootstrap5.js') }}"></script>
 <script src="{{ asset('assets/vendor/libs/%40form-validation/auto-focus.js') }}"></script>
 <script src="{{ asset('assets/vendor/libs/flatpickr/flatpickr.js') }}"></script>
-<script src="{{asset('assets/vendor/libs/autosize/autosize.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/bootstrap-maxlength/bootstrap-maxlength.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/jquery-repeater/jquery-repeater.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/bootstrap-select/bootstrap-select.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/bloodhound/bloodhound.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/jquery-timepicker/jquery-timepicker.js')}}"></script>
-<script src="{{asset('assets/vendor/libs/pickr/pickr.js')}}"></script>
+<script src="{{ asset('assets/vendor/libs/autosize/autosize.js') }}"></script>
+<script src="{{ asset('assets/vendor/libs/bootstrap-maxlength/bootstrap-maxlength.js') }}"></script>
+<script src="{{ asset('assets/vendor/libs/jquery-repeater/jquery-repeater.js') }}"></script>
+<script src="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
+<script src="{{ asset('assets/vendor/libs/bloodhound/bloodhound.js') }}"></script>
+<script src="{{ asset('assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
+<script src="{{ asset('assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js') }}"></script>
+<script src="{{ asset('assets/vendor/libs/jquery-timepicker/jquery-timepicker.js') }}"></script>
+<script src="{{ asset('assets/vendor/libs/pickr/pickr.js') }}"></script>
 
 
 <!-- Main JS -->
@@ -225,15 +222,26 @@
 <script src="{{ asset('assets/js/modal-enable-otp.js') }}"></script>
 <script src="{{ asset('assets/js/app-user-view.js') }}"></script>
 <script src="{{ asset('assets/js/app-user-view-security.js') }}"></script>
-<script src="{{asset('assets/js/forms-selects.js')}}"></script>
-<script src="{{asset('assets/js/forms-tagify.js')}}"></script>
-<script src="{{asset('assets/js/forms-typeahead.js')}}"></script>
-<script src="{{asset('assets/js/forms-pickers.js')}}"></script>
+<script src="{{ asset('assets/js/forms-selects.js') }}"></script>
+<script src="{{ asset('assets/js/forms-tagify.js') }}"></script>
+<script src="{{ asset('assets/js/forms-typeahead.js') }}"></script>
+<script src="{{ asset('assets/js/forms-pickers.js') }}"></script>
 
 {{-- form-layouts JS --}}
 
 <script src="{{ asset('assets/js/form-layouts.js') }}"></script>
-
+<script>
+    window.replainSettings = {
+        id: '95f6de91-7691-4565-8411-448079268f89'
+    };
+    (function(u) {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = u;
+        var x = document.getElementsByTagName('script')[0];
+        x.parentNode.insertBefore(s, x);
+    })('https://widget.replain.cc/dist/client.js');
+</script>
 </body>
 
 </html>

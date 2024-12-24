@@ -53,7 +53,7 @@
     <!-- End Google Tag Manager -->
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/staticImages/logo.png') }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -168,10 +168,6 @@
 <!-- / Layout wrapper -->
 
 
-<div class="buy-now">
-    <a href="https://1.envato.market/materialize_admin" target="_blank" class="btn btn-danger btn-buy-now">Buy Now</a>
-</div>
-
 
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
@@ -223,7 +219,18 @@
 {{-- form-layouts JS --}}
 
 <script src="{{ asset('assets/js/form-layouts.js') }}"></script>
-
+<script>
+    window.replainSettings = {
+        id: '95f6de91-7691-4565-8411-448079268f89'
+    };
+    (function(u) {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = u;
+        var x = document.getElementsByTagName('script')[0];
+        x.parentNode.insertBefore(s, x);
+    })('https://widget.replain.cc/dist/client.js');
+</script>
 </body>
 
 </html>
