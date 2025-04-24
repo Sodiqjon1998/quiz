@@ -81,7 +81,7 @@
                 </a>
             </li>
             <li class="list-item">
-                <a href="{{ route('frontend.guest') }}">
+                <a href="{{ route('guest') }}">
                     Yangi o'quvchi
                 </a>
             </li>

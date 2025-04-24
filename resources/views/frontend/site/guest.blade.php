@@ -1,3 +1,5 @@
-<h1>
-    Site
-</h1>
+@extends('frontend.layouts.main')
+
+@section('content')
+    Salom
+@endsection
