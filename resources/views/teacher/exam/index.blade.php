@@ -75,10 +75,10 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{route('teacher.quiz.edit', $item->id)}}"
+                                {{-- <a href="{{route('teacher.quiz.edit', $item->id)}}"
                                    class="badge bg-label-info badge-lg rounded-pill">
                                     <i style="font-size: 16px" class="ri-pencil-line"></i>
-                                </a>
+                                </a> --}}
                                 <a href="{{ route('teacher.quiz.show', $item->id) }}"
                                    class="badge bg-label-primary badge-lg rounded-pill">
                                     <i style="font-size: 16px" class="ri-eye-2-line"></i>

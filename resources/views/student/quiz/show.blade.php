@@ -6,37 +6,37 @@
     @php
         $date = Quiz::getAttachmentById($quiz->id)->date;
         $time = Quiz::getAttachmentById($quiz->id)->time;
-        $dateTime = strtotime($date. " " .$time);
+        $dateTime = strtotime($date . ' ' . $time);
         $dateTimeFormat = date('H:i:s', $dateTime);
 
     @endphp
     <div class="card">
         <h6 class="text-md-end p-3">
-            <i class="ri-time-fill"></i> <span id="timer">{{$dateTimeFormat}}</span>
+            <i class="ri-time-fill"></i> <span id="timer">{{ $dateTimeFormat }}</span>
         </h6>
-        <form action="{{route('student.quiz.store')}}" id="quizForm" method="post">
+        <form action="{{ route('student.quiz.store') }}" id="quizForm" method="post">
             @csrf
             @php $qCount = 0 @endphp
-            @foreach($questions as $key => $question)
+            @foreach ($questions as $key => $question)
                 <div class="card-header">
-                    <strong>{{++$key}})</strong> {{$question->name}}
+                    <strong>{{ ++$key }})</strong> {{ $question->name }}
                 </div>
-                    <?php
-                    $options = Quiz::getOptionById($question->id)
-                    ?>
-                Subject<input type="text" name="subjectId" id="" value="{{$subject->id}}">
-                Quiz <input type="text" name="quizId" id="" value="{{$quiz->id}}">
-                Question <input type="text" name="question[]" id="" value="{{$question->id}}">
-                Answer <input type="text" name="option[]" id="ans_{{$key}}" value="">
+                <?php
+                $options = Quiz::getOptionById($question->id);
+                ?>
+                <input type="hidden" name="subjectId" id="" value="{{ $subject->id }}">
+                <input type="hidden" name="quizId" id="" value="{{ $quiz->id }}">
+                <input type="hidden" name="question[]" id="" value="{{ $question->id }}">
+                <input type="hidden" name="option[]" id="ans_{{ $key }}" value="">
 
                 <ol type="A">
-                    @foreach($options as $k => $option)
+                    @foreach ($options as $k => $option)
                         <div class="card-body">
                             <li>
-                                &nbsp;<input type="radio" class="selectOption" id="" name="options{{$key}}"
-                                             value="{{$option->id}}"
-                                             data-id="{{$key}}">
-                                <label for="ans_{{$key}}">{{$option->name}}</label>
+                                &nbsp;<input type="radio" class="selectOption" id=""
+                                    name="options{{ $key }}" value="{{ $option->id }}"
+                                    data-id="{{ $key }}">
+                                <label for="ans_{{ $key }}">{{ $option->name }}</label>
                             </li>
                         </div>
                     @endforeach
@@ -53,15 +53,17 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        $(document).ready(function () {
-            $(".selectOption").click(function () {
+        $(document).ready(function() {
+            $(".selectOption").click(function() {
                 let no = $(this).attr('data-id');
                 $("#ans_" + no).val($(this).val());
             })
 
-            let hours = 0, minutes = 0, seconds = 0;
+            let hours = 0,
+                minutes = 0,
+                seconds = 0;
             let quizId = @json($quiz->id);
-            let subjectId = "{{$subject->id}}"
+            let subjectId = "{{ $subject->id }}"
             let userId = @json(Auth::user()->id);
 
             let timer;
@@ -84,12 +86,12 @@
                                 _token: "{{ csrf_token() }}",
                                 quizId: quizId
                             },
-                            success: function (response) {
+                            success: function(response) {
                                 alert(response.status)
 
                                 $('#quizForm').submit();
                             },
-                            error: function (xhr) {
+                            error: function(xhr) {
                                 alert("Xatolik yuz berdi.");
                                 startTimer();
                                 console.error("Vaqtni tozalashda xatolik:", xhr.responseText);
@@ -137,10 +139,10 @@
                         minutes: minutes,
                         seconds: seconds
                     },
-                    success: function (response) {
+                    success: function(response) {
                         console.log("Vaqt saqlandi:", response);
                     },
-                    error: function (xhr) {
+                    error: function(xhr) {
                         console.error("Vaqtni saqlashda xatolik yuz berdi:", xhr.responseText);
                     }
                 });
@@ -155,24 +157,27 @@
                         quizId: quizId,
                         userId: userId
                     },
-                    success: function (response) {
-                        if (response && !isNaN(response.hours) && !isNaN(response.minutes) && !isNaN(response.seconds)) {
+                    success: function(response) {
+                        if (response && !isNaN(response.hours) && !isNaN(response.minutes) && !isNaN(
+                                response.seconds)) {
                             hours = parseInt(response.hours);
                             minutes = parseInt(response.minutes);
                             seconds = parseInt(response.seconds);
                             startTimer(); // Vaqtni yuklab, timerni boshlash
                         } else {
                             // Agar noto'g'ri qiymatlar bo'lsa, standart vaqtni o'rnatish
-                            let timeParts = @json(explode(":", $dateTimeFormat));
-                            hours = timeParts[0] ? parseInt(timeParts[0]) : 0; // Agar bo'sh bo'lsa, 0 qiymat berilsin
+                            let timeParts = @json(explode(':', $dateTimeFormat));
+                            hours = timeParts[0] ? parseInt(timeParts[0]) :
+                            0; // Agar bo'sh bo'lsa, 0 qiymat berilsin
                             minutes = timeParts[1] ? parseInt(timeParts[1]) : 0;
                             seconds = timeParts[2] ? parseInt(timeParts[2]) : 0;
                             startTimer();
                         }
                     },
-                    error: function (xhr) {
-                        let timeParts = @json(explode(":", $dateTimeFormat));
-                        hours = timeParts[0] ? parseInt(timeParts[0]) : 0; // Agar bo'sh bo'lsa, 0 qiymat berilsin
+                    error: function(xhr) {
+                        let timeParts = @json(explode(':', $dateTimeFormat));
+                        hours = timeParts[0] ? parseInt(timeParts[0]) :
+                        0; // Agar bo'sh bo'lsa, 0 qiymat berilsin
                         minutes = timeParts[1] ? parseInt(timeParts[1]) : 0;
                         seconds = timeParts[2] ? parseInt(timeParts[2]) : 0;
                         startTimer();
@@ -186,7 +191,7 @@
 
 
             // Testni yakunlash
-            $('#submitBtn').click(async function (e) {
+            $('#submitBtn').click(async function(e) {
                 e.preventDefault();
                 let confirms = confirm("Rostdan ham testni yakunlamoqchimisiz?");
                 if (confirms) {
@@ -198,12 +203,12 @@
                             _token: "{{ csrf_token() }}",
                             quizId: quizId
                         },
-                        success: function (response) {
+                        success: function(response) {
                             alert(response.status)
 
                             $('#quizForm').submit();
                         },
-                        error: function (xhr) {
+                        error: function(xhr) {
                             alert("Xatolik yuz berdi.");
                             startTimer();
                             console.error("Vaqtni tozalashda xatolik:", xhr.responseText);
