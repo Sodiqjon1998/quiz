@@ -62,6 +62,8 @@
 <script src="{{ asset('assets/libs/node-waves/waves.min.js') }}"></script>
 
 
+
+
 <!-- apexcharts -->
 {{-- <script src="{{asset('assets/libs/apexcharts/apexcharts.min.js')}}"></script> --}}
 
