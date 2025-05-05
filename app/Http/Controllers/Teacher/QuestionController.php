@@ -33,6 +33,7 @@ class QuestionController extends Controller
     {
         $model = new Question();
         $model->name = $request->input('name');
+        $model->text = $request->input('text');
         $model->quiz_id = $request->input('quiz_id');
         $model->status = $request->input('status');
         $model->created_by = \Auth::user()->id;
@@ -88,4 +89,30 @@ class QuestionController extends Controller
     {
         //
     }
+
+
+
+    public function upload(Request $request)
+    {
+        if ($request->hasFile('upload')) {
+            $file = $request->file('upload');
+
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads'), $filename);
+
+            $url = asset('uploads/' . $filename);
+
+            return response()->json([
+                'uploaded' => 1,
+                'fileName' => $filename,
+                'url' => $url
+            ]);
+        }
+
+        return response()->json([
+            'uploaded' => 0,
+            'error' => ['message' => 'Fayl yuklanmadi.']
+        ]);
+    }
+
 }

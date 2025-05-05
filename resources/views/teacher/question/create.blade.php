@@ -7,6 +7,12 @@ $index = 1;
 
 @extends('teacher.layouts.main')
 
+<style>
+    .my-textarea {
+        height: 300px;
+    }
+</style>
+
 @section('content')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -26,6 +32,16 @@ $index = 1;
                     <form method="POST" action="{{ route('teacher.question.store') }}">
                         @csrf
                         <div class="row">
+
+                            <div class="col-md-12 mb-6">
+
+                                <div class="form-group">
+                                    <label> Text </label>
+                                    <textarea class="form-control my-textarea" id="body" placeholder="Enter the Description"
+                                              name="text" rows="30"></textarea>
+                                </div>
+                            </div>
+
                             <div class="col-md-6 mb-6">
 
                                 <div class="form-floating form-floating-outline mb-6">
@@ -34,6 +50,8 @@ $index = 1;
                                     <label for="basic-default-fullname">Savol matni</label>
                                 </div>
                             </div>
+
+
                             <!-- Basic -->
                             <div class="col-md-6 mb-6">
                                 <div class="form-floating form-floating-outline">
@@ -125,5 +143,21 @@ $index = 1;
             </div>
         </div>
     </div>
+
+
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#body'), {
+                ckfinder: {
+                    uploadUrl: '{{ route("ckeditor.upload")."?_token=".csrf_token() }}'
+                }
+            })
+            .then(editor => {
+                editor.ui.view.editable.element.style.height = '300px';
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
 @endsection
 

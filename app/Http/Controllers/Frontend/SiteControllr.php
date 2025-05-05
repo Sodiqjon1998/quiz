@@ -12,6 +12,20 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 
-class SiteControllr extends Controller {
-    
+class SiteControllr extends Controller
+{
+    public function upload(Request $request)
+    {
+        if ($request->hasFile('upload')) {
+            $file = $request->file('upload');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/uploads', $filename);
+
+            $url = asset('storage/uploads/' . $filename);
+
+            return response()->json([
+                'url' => $url
+            ]);
+        }
+    }
 }

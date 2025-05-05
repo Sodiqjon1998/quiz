@@ -48,6 +48,9 @@ Route::middleware(['auth.teacher','teacher'])->group(function () {
         Route::post('/teacher/question/{id}/update', 'update')->name('teacher.question.update');
         Route::delete('/teacher/question/{id}', 'destroy')->name('teacher.question.destroy');
 
+        Route::post('/teacher/upload', 'upload')->name('ckeditor.upload');
+
+
     });
 
     Route::prefix('/teacher')->controller(ExamController::class)->group(function () {

@@ -35,7 +35,7 @@
 
     <!-- ? PROD Only: Google Tag Manager (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
     <script>
-        (function(w, d, s, l, i) {
+        (function (w, d, s, l, i) {
             w[l] = w[l] || [];
             w[l].push({
                 'gtm.start': new Date().getTime(),
@@ -105,6 +105,9 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ asset('assets/js/config.js') }}"></script>
 
+    {{-- CKEditor CDN --}}
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+
 </head>
 
 <body>
@@ -173,8 +176,6 @@
 <!-- / Layout wrapper -->
 
 
-
-
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
 <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
@@ -234,14 +235,22 @@
     window.replainSettings = {
         id: '95f6de91-7691-4565-8411-448079268f89'
     };
-    (function(u) {
+    (function (u) {
         var s = document.createElement('script');
         s.async = true;
         s.src = u;
         var x = document.getElementsByTagName('script')[0];
         x.parentNode.insertBefore(s, x);
     })('https://widget.replain.cc/dist/client.js');
+
+
 </script>
+
+
+{{--CKEDITOR--}}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
 </body>
 
 </html>

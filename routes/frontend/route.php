@@ -9,11 +9,10 @@
  */
 
 
-Route::get('/', function(){
+Route::get('/', function () {
     return view('frontend.site.crm');
 });
 
 Route::get('/guest', function () {
     return view('frontend.site.guest');
 })->name('guest');
-
