@@ -38,6 +38,23 @@ class QuestionController extends Controller
         $model->status = $request->input('status');
         $model->created_by = \Auth::user()->id;
         $model->updated_by = \Auth::user()->id;
+
+        $text = $request->input('text');
+
+        // CKEditor text ichidan rasm src larni topamiz
+        preg_match_all('/<img[^>]+src="([^">]+)"/', $text, $matches);
+        $imageUrls = $matches[1]; // [ 'http://yourdomain/uploads/tmp/abc.jpg', ... ]
+
+        foreach ($imageUrls as $url) {
+            $path = str_replace(asset(''), '', $url); // uploads/tmp/abc.jpg
+            $filename = basename($path);
+
+            if (file_exists(public_path($path))) {
+                rename(public_path($path), public_path('uploads/' . $filename));
+                $text = str_replace($url, asset('uploads/' . $filename), $text);
+            }
+        }
+
         if ($model->save()) {
             foreach ($request->input('names') as $index => $name) {
                 $option = new Option();
@@ -96,23 +113,16 @@ class QuestionController extends Controller
     {
         if ($request->hasFile('upload')) {
             $file = $request->file('upload');
-
-            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads'), $filename);
-
-            $url = asset('uploads/' . $filename);
+            $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/tmp'), $filename);
+            $url = asset('uploads/tmp/' . $filename);
 
             return response()->json([
-                'uploaded' => 1,
-                'fileName' => $filename,
+                'uploaded' => true,
                 'url' => $url
             ]);
         }
-
-        return response()->json([
-            'uploaded' => 0,
-            'error' => ['message' => 'Fayl yuklanmadi.']
-        ]);
     }
+
 
 }
