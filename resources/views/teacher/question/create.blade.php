@@ -11,6 +11,14 @@ $index = 1;
     .my-textarea {
         height: 300px;
     }
+
+    /* CKEditor ichidagi rasm o'lchamini nazorat qilish */
+    .ck-content img {
+        max-width: 100%;
+        height: auto;
+        max-height: 300px;
+        border-radius: 4px;
+    }
 </style>
 
 @section('content')
@@ -150,7 +158,37 @@ $index = 1;
             .create(document.querySelector('#body'), {
                 ckfinder: {
                     uploadUrl: '{{ route("ckeditor.upload")."?_token=".csrf_token() }}'
+                },
+                image: {
+                    resizeUnit: "%",
+                    resizeOptions: [
+                        {
+                            name: 'resizeImage:original',
+                            label: 'Original',
+                            value: null
+                        },
+                        {
+                            name: 'resizeImage:50',
+                            label: '50%',
+                            value: '50'
+                        },
+                        {
+                            name: 'resizeImage:25',
+                            label: '25%',
+                            value: '25'
+                        }
+                    ],
+                    toolbar: [
+                        'imageStyle:alignLeft',
+                        'imageStyle:full',
+                        'imageStyle:alignRight',
+                        '|',
+                        'resizeImage',
+                        '|',
+                        'imageTextAlternative'
+                    ]
                 }
+
             })
             .then(editor => {
                 editor.ui.view.editable.element.style.height = '300px';

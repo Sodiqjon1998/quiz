@@ -20,6 +20,7 @@
             @foreach ($questions as $key => $question)
                 <div class="card-header">
                     <strong>{{ ++$key }})</strong> {{ $question->name }}
+                    {!! $question->text !!}
                 </div>
                 <?php
                 $options = Quiz::getOptionById($question->id);
